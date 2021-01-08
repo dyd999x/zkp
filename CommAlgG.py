@@ -21,17 +21,34 @@ class CommAlgG:
 
 
     def pub(self, x):
+
         c = (x**0, x)
-        return c
+        r = 0
+        s = 0
+        result = {
+            "c": c,
+            "r": r,
+            "s": s,
+
+        }
+        return result
 
     def enc(self,x):
+
         r = self.group.random(ZR)
+        s = 0
         e_x = (x ** 0, x)
         params = self.gen()
         v = params["v"]
         v_r = v ** r
         c = np.dot(e_x,v_r)
-        return c
+        result = {
+            "c": c,
+            "r": r,
+            "s": s,
+
+        }
+        return result
 
     def com(self,x):
         r = self.group.random(ZR)
@@ -44,24 +61,53 @@ class CommAlgG:
         w_s = w ** s
         c1 = np.dot(e_x,v_r)
         c = np.dot(c1, w_s)
-        return c
+        result = {
+            "c": c,
+            "r": r,
+            "s": s,
+
+        }
+        return result
 
     def base(self):
         g = self.group.random(G1)
+        r = 0
+        s = 0
         c = (g ** 0, g)
-        return  c
+        result = {
+            "c": c,
+            "r": r,
+            "s": s,
+
+        }
+        return result
 
     def sca(self,x):
         r = self.group.random(ZR)
+        s = 0
         params = self.gen()
         u = params["u"]
         v = params["v"]
         x_u = np.dot(x, u)
         v_r = v ** r
         c = np.dot(x_u,v_r)
-        return c
+        result = {
+            "c": c,
+            "r": r,
+            "s": s,
+
+        }
+        return result
 
     def unit(self):
         params = self.gen()
+        r = 0
+        s = 0
         c = params["u"]
-        return c
+        result = {
+            "c": c,
+            "r": r,
+            "s": s,
+
+        }
+        return result

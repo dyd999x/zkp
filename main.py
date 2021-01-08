@@ -17,17 +17,7 @@ comH = CommAlgH(group)
 comG= CommAlgG(group)
 y = group.random(G2)
 x= group.random(G1)
-# print("pub " + str(c))
-# c = com.enc(x)
-# print("enc " + str(c))
-# c = com.com(x)
-# print("com " + str(c))
-# c = com.base()
-# print("base " + str(c))
-# c = com.sca(x)
-# print("sca " + str(c))
-# c = com.unit()
-# print("unit " + str(c))
+gamma = np.arange(12).reshape(2, 6)
 
 def commit(t,m):
     if(t[0]==1) :
@@ -56,48 +46,31 @@ def commit(t,m):
             return comH.sca(m)
         elif (t[1] == 'unit'):
             return comH.unit()
-def checkFormat (t1,x,t2,y) :
-    if(t1[0]==1) and (t2[0]==2) :
-        if (t1[1] in ['base','pub','enc','com'] and t2[1] in ['base','pub','enc','com'] ) :
-            return ('PPE')
-        elif (t1[1] in ['base','pub','enc'] and t2[1] in ['base','com'] ) :
-            return ('PEncG')
-        elif (t1[1] in ['base','pub'] and t2[1] in ['base','com'] ) :
-            return ('PConstG')
-        elif (t1[1] in ['base','com'] and t2[1] in ['base','pub','enc'] ) :
-            return ('PEncH')
-        elif (t1[1] in ['base','com'] and t2[1] in ['base','pub'] ) :
-            return ('PConstH')
-        elif (t1[1] in ['base','pub','enc','com'] and t2[1] in ['unit','sca'] ) :
-            return ('MEG')
-        elif (t1[1] in ['base','pub','enc'] and t2[1] in ['unit','sca'] ) :
-            return ('MEncG')
-        elif (t1[1] in ['base','pub'] and t2[1] in ['unit','sca'] ) :
-            return ('MConstG')
-        elif (t1[1] in ['base','com'] and t2[1] in ['unit'] ) :
-            return ('MLinG')
-        elif (t1[1] in ['unit','sca'] and t2[1] in ['base','pub','enc','com'] ) :
-            return ('MEH')
-        elif (t1[1] in ['unit','sca'] and t2[1] in ['base','pub','enc'] ) :
-            return ('MEncH')
-        elif (t1[1] in ['unit','sca'] and t2[1] in ['base','pub'] ) :
-            return ('MConstH')
-        elif (t1[1] in ['unit'] and t2[1] in ['base','com'] ) :
-            return ('MLinH')
-        elif (t1[1] in ['unit','sca'] and t2[1] in ['unit','sca'] ) :
-            return ('QE')
-        elif (t1[1] in ['unit'] and t2[1] in ['unit','sca'] ) :
-            return ('QConstG')
-        elif (t1[1] in ['unit','sca'] and t2[1] in ['unit'] ) :
-            return ('QConstH')
 
 
 
 
-y1= commit((1,'com'),x)
-y2= checkFormat((1,'enc'),x,(2,'base'),y)
-print(str(y1))
-print(str(y2))
+
+# y1= commit((1,'com'),x)
+# y2= checkFormat((1,'enc'),x,(2,'base'),y)
+# print(str(y1))
+# print(str(y2))
+
+v_1 = group.random(G1)
+v_2 = group.random(G1)
+v = np.array((v_1, v_2)).T
+r =group.random(ZR)
+e_x = (x ** 0, x)
+res = v ** r
+c = np.dot(e_x,res)
+
+#print(c)
+
+res = comG.enc(x)
+print(res["s"])
+
+print("***************************************")
+
 
 
 

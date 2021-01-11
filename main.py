@@ -15,9 +15,11 @@ from CommAlgH import CommAlgH
 group = PairingGroup("MNT159")
 comH = CommAlgH(group)
 comG= CommAlgG(group)
-y = group.random(G2)
-x= group.random(G1)
-gamma = np.arange(12).reshape(2, 6)
+p = comG.getParams()
+print(p)
+# y = group.random(G2)
+# x= group.random(G1)
+# gamma = np.arange(12).reshape(2, 6)
 
 def commit(t,m):
     if(t[0]==1) :
@@ -55,23 +57,16 @@ def commit(t,m):
 # y2= checkFormat((1,'enc'),x,(2,'base'),y)
 # print(str(y1))
 # print(str(y2))
-
-v_1 = group.random(G1)
-v_2 = group.random(G1)
-v = np.array((v_1, v_2)).T
-r =group.random(ZR)
-e_x = (x ** 0, x)
-res = v ** r
-c = np.dot(e_x,res)
+#
+# v_1 = group.random(G1)
+# v_2 = group.random(G1)
+# v = np.array((v_1, v_2)).T
+# r =group.random(ZR)
+# e_x = (x ** 0, x)
+# res = v ** r
+# c = np.dot(e_x,res)
 
 #print(c)
-
-res = comG.enc(x)
-print(res["s"])
-
-print("***************************************")
-
-
 
 
 

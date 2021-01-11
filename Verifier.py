@@ -2,7 +2,7 @@
 from CheckFormat import checkFormat
 import numpy as np
 
-def verify(T, gamma, dict1, dict2, proof):
+def verify(T, gamma, dict1, dict2, proof, params):
     (m, n) = gamma.shape
     t1 = list(dict1.keys())
     t2 = list(dict2.keys())
@@ -24,8 +24,10 @@ def verify(T, gamma, dict1, dict2, proof):
 
     if checkFormat(T, gamma, t1, t2):
         if (dim1_C == 2 and dim2_C == m) and (dim1_D == n and dim2_D == 2):
-            if dim1_p1 ==2 and dim2_p1 == 1 and dim1_p2 == 2 and dim2_p2 == 1:
-                return True
+            if dim1_p1 ==2 and dim2_p1 == 1 and dim1_p2 == 2 and dim2_p2 == 1 and dim1_p3 == 1 and dim2_p3 == 2 and dim1_p4 == 1 and dim2_p4 == 2:
+                aux = np.dot(C,gamma)
+
+
 
 
 

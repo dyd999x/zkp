@@ -1,5 +1,5 @@
 from charm.toolbox.pairinggroup import ZR,G1,G2
-from main import commit
+from commit import commit
 
 
 

@@ -97,7 +97,6 @@ class CommAlgG:
         return result
 
     def unit(self):
-        params = self.gen()
         r = 0
         s = 0
         c = self.params["u"]
@@ -107,7 +106,7 @@ class CommAlgG:
             "s": s,
 
         }
-        return result, params
+        return result
 
     def getParams(self):
         return self.params

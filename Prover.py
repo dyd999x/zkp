@@ -1,7 +1,6 @@
 from charm.toolbox.pairinggroup import ZR,G1,G2
 from main import commit
-from main import comG
-from main import comH
+
 
 
 def prove(T,gamma,t1,x,t2,y,paramsG,paramsH) :

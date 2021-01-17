@@ -1,6 +1,6 @@
 from charm.toolbox.pairinggroup import ZR,G1,G2
 from commit import commit
-
+from main import group
 
 
 def prove(T,gamma,t1,x,t2,y,paramsG,paramsH) :
@@ -14,31 +14,31 @@ def prove(T,gamma,t1,x,t2,y,paramsG,paramsH) :
         delta=group.random(ZR)
         if (T=='PPE') :
             PivG= resultG["r"] * gamma * resultH["c"] + alpha * paramsH["v"] + beta * paramsH["w"]
-            PivH= (resultG["c"] - paramasG["v"]*resultG["r"] - paramsG["w"]*resultG["s"]) * gamma * resultH["r"] - paramsG["v"]*alpha - paramasG["w"]*teta
+            PivH= (resultG["c"] - paramsG["v"]*resultG["r"] - paramsG["w"]*resultG["s"]) * gamma * resultH["r"] - paramsG["v"]*alpha - paramsG["w"]*teta
             PiwG= resultG["s"]*gamma*resultH["c"]+ teta* paramsH["v"] + delta*paramsH["w"]
-            PiwH= (resultG["c"]-paramsG[v]*resultG["r"]-paramsG["w"]*resultG["s"])*gamma*resultH["s"]-paramsG["v"]*beta-paramsG["w"]*delta
+            PiwH= (resultG["c"]-paramsG["v"]*resultG["r"]-paramsG["w"]*resultG["s"])*gamma*resultH["s"]-paramsG["v"]*beta-paramsG["w"]*delta
             proof= (PivG,PiwG,PivH,PiwH)
             return (proof)
         elif (T in {'PEncG','MEH'}) :
             PivG = resultG["r"] * gamma * resultH["c"] + alpha * paramsH["v"] + beta * paramsH["w"]
-            PivH = (resultG["c"] - paramasG["v"] * resultG["r"] - paramsG["w"] * resultG["s"]) * gamma * resultH["r"] - paramsG["v"] * alpha
+            PivH = (resultG["c"] - paramsG["v"] * resultG["r"] - paramsG["w"] * resultG["s"]) * gamma * resultH["r"] - paramsG["v"] * alpha
             PiwG = resultG["s"] * gamma * resultH["c"]
-            PiwH = (resultG["c"] - paramsG[v] * resultG["r"] - paramsG["w"] * resultG["s"]) * gamma * resultH["s"] - paramsG["v"] * beta
+            PiwH = (resultG["c"] - paramsG["v"] * resultG["r"] - paramsG["w"] * resultG["s"]) * gamma * resultH["s"] - paramsG["v"] * beta
             proof = (PivG, PiwG, PivH, PiwH)
             return (proof)
         elif (T in {'PEncH','MEG'}) :
             PivG = resultG["r"] * gamma * resultH["c"] + alpha * paramsH["v"]
-            PivH = (resultG["c"] - paramasG["v"] * resultG["r"] - paramsG["w"] * resultG["s"]) * gamma * resultH["r"] - \
-                   paramsG["v"] * alpha - paramasG["w"] * teta
+            PivH = (resultG["c"] - paramsG["v"] * resultG["r"] - paramsG["w"] * resultG["s"]) * gamma * resultH["r"] - \
+                   paramsG["v"] * alpha - paramsG["w"] * teta
             PiwG = resultG["s"] * gamma * resultH["c"] + teta * paramsH["v"]
-            PiwH = (resultG["c"] - paramsG[v] * resultG["r"] - paramsG["w"] * resultG["s"]) * gamma * resultH["s"]
+            PiwH = (resultG["c"] - paramsG["v"] * resultG["r"] - paramsG["w"] * resultG["s"]) * gamma * resultH["s"]
             proof = (PivG, PiwG, PivH, PiwH)
             return (proof)
         elif (T in {'MEncG', 'MEncH','QE'}):
             PivG = resultG["r"] * gamma * resultH["c"] + alpha * paramsH["v"]
-            PivH = (resultG["c"] - paramasG["v"] * resultG["r"] - paramsG["w"] * resultG["s"]) * gamma * resultH["r"] - paramsG["v"] * alpha
+            PivH = (resultG["c"] - paramsG["v"] * resultG["r"] - paramsG["w"] * resultG["s"]) * gamma * resultH["r"] - paramsG["v"] * alpha
             PiwG = resultG["s"] * gamma * resultH["c"]
-            PiwH = (resultG["c"] - paramsG[v] * resultG["r"] - paramsG["w"] * resultG["s"]) * gamma * resultH["s"]
+            PiwH = (resultG["c"] - paramsG["v"] * resultG["r"] - paramsG["w"] * resultG["s"]) * gamma * resultH["s"]
             proof = (PivG, PiwG, PivH, PiwH)
             return (proof)
 

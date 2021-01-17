@@ -10,15 +10,82 @@ from charm.toolbox.pairinggroup import ZR,G1,G2,PairingGroup
 import numpy as np
 from CommAlgG import CommAlgG
 from CommAlgH import CommAlgH
+from CheckFormat import checkFormat
+
+
+
+def commit(t,x):
+    gr = t[0]
+    types = t[1]
+    commitments = []
+    for i in range(len(types)):
+        if(gr == 1) :
+            if(types[i]=='pub') :
+               res = comG.pub(x[i])
+               commitments.append(res)
+            elif (types[i]=='enc') :
+                res =comG.enc(x[i])
+                commitments.append(res)
+            elif(types[i]=='com') :
+                res = comG.com(x[i])
+                commitments.append(res)
+            elif(types[i]=='base') :
+                 res =comG.base()
+                 commitments.append(res)
+            elif(types[i]=='sca') :
+                res =comG.sca(x[i])
+                commitments.append(res)
+            elif(types[i]=='unit') :
+                res =comG.unit()
+                commitments.append(res)
+        elif(gr==2):
+            if (types[i] == 'pub'):
+                res =comH.pub(x[i])
+                commitments.append(res)
+            elif (types[i] == 'enc'):
+                res =comH.enc(x[i])
+                commitments.append(res)
+            elif (types[i] == 'com'):
+                res =comH.com(x[i])
+                commitments.append(res)
+            elif (types[i] == 'base'):
+                res =comH.base()
+                commitments.append(res)
+            elif (types[i] == 'sca'):
+                res =comH.sca(x[i])
+                commitments.append(res)
+            elif (types[i] == 'unit'):
+                res =comH.unit()
+                commitments.append(res)
+    return commitments
 
 
 group = PairingGroup("MNT159")
 comH = CommAlgH(group)
 comG= CommAlgG(group)
-p = comG.getParams()
-print(p)
-# y = group.random(G2)
-# x= group.random(G1)
+
+g = group.random(G1)
+s = group.random(ZR)
+x = g ** s
+T = 'MEG'
+types1 = ['pub','com']
+types2=['unit']
+t1=[1]
+t2=[2]
+t1.append(types1)
+t2.append(types2)
+elemG = [x,s]
+
+print(t1[1])
+gamma= np.array([[1, -1]]).T
+
+resultG = commit(t1,elemG)
+resultH = commit(t2,[])
+print(resultH)
+print(resultG)
+
+print(checkFormat(T,gamma,types1,types2))
+print(x)
 # gamma = np.arange(12).reshape(2, 6)
 
 

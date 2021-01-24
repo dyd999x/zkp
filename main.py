@@ -11,6 +11,8 @@ import numpy as np
 from CommAlgG import CommAlgG
 from CommAlgH import CommAlgH
 from CheckFormat import checkFormat
+from Prover import prove
+from Verifier import verify
 
 
 
@@ -76,16 +78,50 @@ t1.append(types1)
 t2.append(types2)
 elemG = [x,s]
 
-print(t1[1])
+
 gamma= np.array([[1, -1]]).T
 
 resultG = commit(t1,elemG)
 resultH = commit(t2,[])
-print(resultH)
-print(resultG)
+#print(resultH)
+# print(resultG)
 
-print(checkFormat(T,gamma,types1,types2))
-print(x)
+r_xi = []
+s_xi = []
+c_i = []
+for elem in resultG:
+    r_xi.append(elem['r'])
+    s_xi.append(elem['s'])
+    c_i.append(elem['c'])
+
+r_yi=[]
+s_yi=[]
+d_i =[]
+for elem in resultH:
+    r_yi.append(elem['r'])
+    s_yi.append(elem['s'])
+    d_i.append(elem['c'])
+
+# print(group.ismember(x))
+# print(np.array(d_i).shape)
+# print(gamma.shape)
+k = np.dot(c_i,gamma)
+print()
+a= np.array(d_i)
+a = a[:, np.newaxis]
+print(a.shape)
+print(k.shape)
+print(np.dot(a,k))
+# paramsG = comG.getParams()
+# paramsH = comH.getParams()
+# proof = prove(T,gamma,types1,c_i,r_xi,s_xi,types2,d_i,r_yi,s_yi,paramsG,paramsH)
+# print(proof)
+#
+#
+# verif = verify(T, gamma, types1, c_i, types2, d_i, proof, paramsG, paramsH)
+# print(verif)
+# print(checkFormat(T,gamma,types1,types2))
+# print(x)
 # gamma = np.arange(12).reshape(2, 6)
 
 

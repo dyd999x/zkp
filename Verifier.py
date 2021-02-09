@@ -1,25 +1,18 @@
 
 from CheckFormat import checkFormat
 import numpy as np
+from charm.toolbox.pairinggroup import ZR,G1,G2,GT,PairingGroup, pair
 
-def verify(T, gamma, types1,c, types2,d, proof, paramsG, paramsH):
-    (m, n) = gamma.shape
-    C = np.array(c)
-    D = np.array(d)
-    D =  np.expand_dims(D,axis = 1)
-    D = D.T
-    (dim1_C, dim2_C) = C.shape
-    (dim1_D, dim2_D) = D.shape
 
-    p1 = np.array(proof[0])
-    p2 = np.array(proof[1])
-    p3 = np.array(proof[2])
-    p4 = np.array(proof[3])
+def verify(T, gamma, types1,c, types2,d, proof, paramsG, paramsH,gr):
+    C = c
+    D = d
 
-    (dim1_p1, dim2_p1) = p1.shape
-    (dim1_p2, dim2_p2) = p2.shape
-    (dim1_p3, dim2_p3) = p3.shape
-    (dim1_p4, dim2_p4) = p4.shape
+
+    p1 = proof[0]
+    p2 = proof[1]
+    p3 = proof[2]
+    p4 = proof[3]
 
     vG = paramsG["v"]
     wG = paramsG["w"]
@@ -27,19 +20,30 @@ def verify(T, gamma, types1,c, types2,d, proof, paramsG, paramsH):
     wH = paramsH["w"]
 
 
+    vGp1 = gr.pair_prod(vG,p1[0])
+    wGp2 = gr.pair_prod(wG,p2[0])
+    p3vH = gr.pair_prod(p3[0][0],vH)
+    p4wH = gr.pair_prod(p4[0][0],wH)
+    # print(vGp1)
+    # print(wGp2)
+    # print(p3vH)
+    # print(p4wH)
+    sum2 = vGp1 * wGp2 * p3vH * p4wH
+    print(sum2)
+
+    Cgamma = C ** gamma
+    pairings = []
+    sum1 = 1
+    for i in Cgamma:
+        for j in list(range(2)):
+            p = gr.pair_prod(i[j],D[0])
+            pairings.append(p)
+            sum1 = sum1 * p
+    print(sum1)
 
     if checkFormat(T, gamma, types1, types2):
-        if (dim1_C == 2 and dim2_C == m) and (dim1_D == n and dim2_D == 2):
-            if dim1_p1 ==2 and dim2_p1 == 1 and dim1_p2 == 2 and dim2_p2 == 1 and dim1_p3 == 1 and dim2_p3 == 2 and dim1_p4 == 1 and dim2_p4 == 2:
-                C_gamma = np.dot(C,gamma)
-                CgammaD = np.dot(C_gamma,D)
-                aux = np.dot(vG,proof[1]) + np.dot(wG,proof[2]) + np.dot(proof[3],vH) + np.dot(proof[4], wH)
-                if aux == CgammaD:
-                    return 1
-            else: print("wrong dimm for proof")
-        else: print("wrong dimm for c or d")
-    else: print("checkformat error")
-
+        if sum1 == sum2:
+            return 1
     return 0
 
 

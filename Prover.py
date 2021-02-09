@@ -14,12 +14,20 @@ def prove(T,gamma,types1,c_i,r_xi,s_xi,types2,d_i,r_yi,s_yi,paramsG,paramsH) :
         beta= 0
         teta= 0
         delta= 0
-        p1 = np.dot(r_xi,gamma)
-        prod1 = np.dot(p1,d_i)
+        p1 = np.dot(r_xi,gamma) #r is from ZR
+        prod1 = d_i ** p1
         p2 = np.dot(s_xi, gamma)
-        prod2 = np.dot(p2, d_i)
-        p3 = c_i - np.dot(paramsG["v"],r_xi) - np.dot(paramsG["w"],s_xi)
-        prod3 = np.dot(p3,gamma)
+        prod2 = d_i ** p2
+        v_r =(paramsG["v"]** (-r_xi[0])) *(paramsG["v"] ** (-r_xi[1]))
+        w_s = (paramsG["w"]** (-s_xi[0])) *(paramsG["w"] ** (-s_xi[1]))
+        c_vr =[]
+        p3 = []
+        for ci in c_i:
+            c_vr.append(ci[0] * v_r + ci[1]*v_r)
+        for ci in c_vr:
+            p3.append(ci*w_s)
+        prod3 = p3 ** gamma
+
         if (T=='PPE') :
             alpha = group.random(ZR)
             beta = group.random(ZR)
@@ -37,9 +45,10 @@ def prove(T,gamma,types1,c_i,r_xi,s_xi,types2,d_i,r_yi,s_yi,paramsG,paramsH) :
         elif (T in {'MEncG', 'MEncH','QE'}):
             alpha = group.random(ZR)
 
-        PivH = prod1 + np.dot(alpha,paramsH["v"]) + np.dot(beta, paramsH["w"])
-        PiwH = prod2 + np.dot(teta, paramsH["v"]) + np.dot(delta, paramsH["w"])
-        PivG = np.dot(prod3,r_yi) -  np.dot(paramsG["v"], alpha) - np.dot(paramsG["w"],teta)
-        PiwG = np.dot(prod3,s_yi) -  np.dot(paramsG["v"], beta) - np.dot(paramsG["w"],delta)
+        PivH = prod1 * (paramsH["v"]**alpha) * (paramsH["w"]**beta)
+        PiwH = prod2 * (paramsH["v"]**teta) * (paramsH["w"]**delta)
+        PivG =(prod3 ** r_yi) / (paramsG["v"] ** alpha) / (paramsG["w"] ** teta)
+        PiwG = (prod3 ** s_yi) /  (paramsG["v"] **beta) / (paramsG["w"] **delta)
         proof = [PivH, PiwH, PivG, PiwG]
         return proof
+
